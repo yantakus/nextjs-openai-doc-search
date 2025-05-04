@@ -457,6 +457,19 @@ async function main() {
   }
 
   console.log('Embedding generation complete')
+
+  console.log('Cleaning up obsolete pages...')
+
+  const { error: cleanupError } = await supabaseClient
+    .from('nods_page')
+    .delete()
+    .not('path', 'in', `(${embeddingSources.map((source) => source.path).join(',')})`)
+
+  if (cleanupError) {
+    console.error(`Failed to cleanup obsolete pages:`, cleanupError)
+  }
+
+  console.log('Cleanup complete')
 }
 
 main().catch((err) => console.error(err))
