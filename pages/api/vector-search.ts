@@ -33,7 +33,7 @@ export default async function handler(req: NextRequest) {
 
     const { messages } = requestData
 
-    const input = messages[0].content
+    const input = messages[messages.length - 1].content
 
     const supabaseClient = createClient(supabaseUrl, supabaseServiceKey)
 
